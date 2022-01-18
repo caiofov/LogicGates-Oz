@@ -1,5 +1,5 @@
 declare 
-[Gates] = {Module.link ['LogicalGates.ozf']} %loading logical gates
+[Gates] = {Module.link ['C:/Users/cfovi_000/Desktop/repositorios/LogicGates-Oz/LogicGates.ozf']} %loading logical gates
 
 fun {DectoBin A C} %decimal to binary
    R in
@@ -14,10 +14,25 @@ end
 
 
 %preparing variables
-Bin = {DectoBin 3 1}
+Bin = {DectoBin 1 1}
 A = Bin div 1000
 B = (Bin mod 1000) div 100
 C = (Bin mod 100) div 10
 D = (Bin mod 10)
 
-{Browse [Bin | A B C D]}
+% T1 = {Gates.orG {Gates.andG {Gates.notG A} B} {Gates.andG {Gates.notG A} C}|{Gates.andG {Gates.notG A} {Gates.notG D}}|{Gates.andG {Gates.notG A} {Gates.notG B}|{Gates.notG D}}}
+T1 = {Gates.orG 
+            {Gates.andG {Gates.notG A} B} 
+            {Gates.andG {Gates.notG A} C} | {Gates.andG {Gates.notG A} {Gates.notG D} } | {Gates.andG 
+                                                                                                {Gates.notG A} 
+                                                                                                {Gates.notG B}|{Gates.notG D}}}
+
+T2 = {Gates.orG 
+            {Gates.andG {Gates.notG A} C}
+            {Gates.andG {Gates.notG B}  
+                  {Gates.notG C}
+                  | {Gates.notG D} 
+            }
+            | {Gates.andG {Gates.notG A} B|D}
+}
+{Browse T2}
