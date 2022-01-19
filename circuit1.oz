@@ -6,27 +6,28 @@ export
    display: Display
 
 define
-   proc {Display N}
+   proc {Display N} %procedimento que será chamado pelo usuário
       {UnmergeDigits N 10}
    end
-   proc {UnmergeDigits N C}
+   proc {UnmergeDigits N C} %separa os digitos do número em decimal
       R in
-         R = (N mod C) div (C div 10)
-         {PrepareVariables R}
-         if N >= C then {UnmergeDigits N C*10} end
+         R = (N mod C) div (C div 10) %pega um digito
+         {PrepareVariables R} %faz as variaveis (inputs) para esse digito
+         if N >= C then {UnmergeDigits N C*10} end %se tiver mais digitos, repete o processo
    end
 
    proc {PrepareVariables N}
       Bin A B C D in
-      Bin = {DectoBin N 1}
+      Bin = {DectoBin N 1} %número em binario
+      %separando os algarismos
       A = Bin div 1000
       B = (Bin mod 1000) div 100
       C = (Bin mod 100) div 10
       D = (Bin mod 10)
-      {DisplayDigit A B C D}
+      {DisplayDigit A B C D} %mostra o digito na tela
    end
 
-   fun {DectoBin A C} %decimal to binary
+   fun {DectoBin A C} %decimal para binario
       R in
       R = A mod 2
       if A > 1 then
@@ -36,7 +37,7 @@ define
       end
    end
 
-   fun {TransformItem N}
+   fun {TransformItem N} %usado na função map -> recebe um caractere/número e o transforma em # ou _
       if N == 1 then
          '#'
       else
@@ -44,14 +45,14 @@ define
       end
    end
 
-   proc {DisplayDigit A B C D}
+   proc {DisplayDigit A B C D} %mostra o digito
       T U V W X 
    in
-      T = {Map {LedsT A B C D} TransformItem}
-      U = {Map {LedsU A B C D} TransformItem}
-      V = {Map {LedsV A B C D} TransformItem}
-      W = {Map {LedsW A B C D} TransformItem}
-      X = {Map {LedsX A B C D} TransformItem}
+      T = {Map {LedsT A B C D} TransformItem} %leds da primeira linha
+      U = {Map {LedsU A B C D} TransformItem} %leds da segunda linha
+      V = {Map {LedsV A B C D} TransformItem} %leds da terceira linha
+      W = {Map {LedsW A B C D} TransformItem} %leds da quarta linha
+      X = {Map {LedsX A B C D} TransformItem} %leds da quinta linha
 
       {Browser.browse T}
       {Browser.browse U}
@@ -61,7 +62,7 @@ define
       {Browser.browse '------------'}
    end
 
-   fun {LedsT A B C D}
+   fun {LedsT A B C D} %circuitos dos leds da primeira linha
       T1 T2 T3 in
          % T1 = ¬D	+	C	+	B	+	A
          T1 = {LogicGates.orG {LogicGates.notG D} C|B|A}
@@ -77,7 +78,7 @@ define
          [T1 T2 T3]
    end
 
-   fun {LedsU A B C D}
+   fun {LedsU A B C D} %circuitos dos leds da segunda linha
       U1 U3 in
          % U1 = A + ¬C ¬D + B ¬C + B ¬D
          U1 = {LogicGates.orG A {LogicGates.andG {LogicGates.notG C} {LogicGates.notG D}}
@@ -92,7 +93,7 @@ define
          [U1 '_' U3]
    end
 
-   fun {LedsV A B C D}
+   fun {LedsV A B C D} %circuitos dos leds da terceira linha
       V1 V2 V3 in
          %V1 = ¬D + A + B ¬C + ¬B C
          V1 = {LogicGates.orG A {LogicGates.notG D}
@@ -109,7 +110,7 @@ define
          [V1 V2 V3]
    end
 
-   fun {LedsW A B C D}
+   fun {LedsW A B C D} %circuitos dos leds da quarta linha
       W1 W3 in
       % W1 = A B + C ¬D + A C + A ¬D + ¬B ¬D
       W1 = {LogicGates.orG {LogicGates.andG A B} {LogicGates.andG C {LogicGates.notG D}}
@@ -123,7 +124,7 @@ define
       [W1 '_' W3]
    end
 
-   fun {LedsX A B C D}
+   fun {LedsX A B C D} %circuitos dos leds da quinta linha
       X1 X2 X3 in
       % X1 =  C ¬D + A C + A ¬D + ¬B C + ¬B ¬D + B ¬C D
       X1 = {LogicGates.orG {LogicGates.andG C {LogicGates.notG D}} {LogicGates.andG A C}

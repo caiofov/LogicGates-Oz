@@ -6,11 +6,12 @@ import
 export
 add: Add
 define 
-    fun {Add B1 B2}
+    %SOMA DE BINÁRIOS
+    fun {Add B1 B2} %funcao que sera chamada pelo usuário
         {Circuit B1 B2 0}
     end
 
-    fun {Circuit B1 B2 Cin}
+    fun {Circuit B1 B2 Cin} %circuito de soma
         S Xor Cout in
             Xor = {LogicGates.xorG B1 B2}
             S = {LogicGates.xorG Xor Cin}
