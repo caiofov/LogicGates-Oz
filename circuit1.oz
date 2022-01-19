@@ -1,8 +1,7 @@
 functor
 import
-   Browse
-   Gates at 'C:/Users/cfovi_000/Desktop/repositorios/LogicGates-Oz/LogicGates.ozf'
-
+   Browser
+   LogicGates
 export
    display: Display
 
@@ -54,23 +53,23 @@ define
       W = {Map {LedsW A B C D} TransformItem}
       X = {Map {LedsX A B C D} TransformItem}
 
-      {Browse T}
-      {Browse U}
-      {Browse V}
-      {Browse W}
-      {Browse X}
-      {Browse '------------'}
+      {Browser.browse T}
+      {Browser.browse U}
+      {Browser.browse V}
+      {Browser.browse W}
+      {Browser.browse X}
+      {Browser.browse '------------'}
    end
 
    fun {LedsT A B C D}
       T1 T2 T3 in
          % T1 = ¬D	+	C	+	B	+	A
-         T1 = {Gates.orG {Gates.notG D} C|B|A}
+         T1 = {LogicGates.orG {LogicGates.notG D} C|B|A}
          
          % T2 = C + A + B D  + ¬B¬D
-         T2 = {Gates.orG C A
-                        |{Gates.andG B D}
-                        |{Gates.andG {Gates.notG B} {Gates.notG D}}
+         T2 = {LogicGates.orG C A
+                        |{LogicGates.andG B D}
+                        |{LogicGates.andG {LogicGates.notG B} {LogicGates.notG D}}
          }
          %T3 = 1
          T3 = 1
@@ -81,14 +80,14 @@ define
    fun {LedsU A B C D}
       U1 U3 in
          % U1 = A + ¬C ¬D + B ¬C + B ¬D
-         U1 = {Gates.orG A {Gates.andG {Gates.notG C} {Gates.notG D}}
-                           | {Gates.andG B {Gates.notG C}}
-                           | {Gates.andG B {Gates.notG D}}
+         U1 = {LogicGates.orG A {LogicGates.andG {LogicGates.notG C} {LogicGates.notG D}}
+                           | {LogicGates.andG B {LogicGates.notG C}}
+                           | {LogicGates.andG B {LogicGates.notG D}}
          }
          % U3 = A + ¬B + ¬C ¬D + C D
-         U3 = {Gates.orG A {Gates.notG B} 
-                           |{Gates.andG {Gates.notG C} {Gates.notG D}}
-                           |{Gates.andG C D}
+         U3 = {LogicGates.orG A {LogicGates.notG B} 
+                           |{LogicGates.andG {LogicGates.notG C} {LogicGates.notG D}}
+                           |{LogicGates.andG C D}
          }
          [U1 '_' U3]
    end
@@ -96,14 +95,14 @@ define
    fun {LedsV A B C D}
       V1 V2 V3 in
          %V1 = ¬D + A + B ¬C + ¬B C
-         V1 = {Gates.orG A {Gates.notG D}
-                           | {Gates.andG B {Gates.notG C}}
-                           | {Gates.andG C {Gates.notG B}}
+         V1 = {LogicGates.orG A {LogicGates.notG D}
+                           | {LogicGates.andG B {LogicGates.notG C}}
+                           | {LogicGates.andG C {LogicGates.notG B}}
          }
          %V2 = A + C ¬D + B ¬C + ¬B C
-         V2 = {Gates.orG A {Gates.andG C {Gates.notG D}}
-                           | {Gates.andG B {Gates.notG C}}
-                           | {Gates.andG C {Gates.notG B}}
+         V2 = {LogicGates.orG A {LogicGates.andG C {LogicGates.notG D}}
+                           | {LogicGates.andG B {LogicGates.notG C}}
+                           | {LogicGates.andG C {LogicGates.notG B}}
          }
          %V3 = 1
          V3 = 1
@@ -113,13 +112,13 @@ define
    fun {LedsW A B C D}
       W1 W3 in
       % W1 = A B + C ¬D + A C + A ¬D + ¬B ¬D
-      W1 = {Gates.orG {Gates.andG A B} {Gates.andG C {Gates.notG D}}
-                                       |{Gates.andG A C}
-                                       |{Gates.andG A {Gates.notG D}}
-                                       |{Gates.andG {Gates.notG B} {Gates.notG D}}
+      W1 = {LogicGates.orG {LogicGates.andG A B} {LogicGates.andG C {LogicGates.notG D}}
+                                       |{LogicGates.andG A C}
+                                       |{LogicGates.andG A {LogicGates.notG D}}
+                                       |{LogicGates.andG {LogicGates.notG B} {LogicGates.notG D}}
       }
       % W3 = ¬C + D + B + A
-      W3 = {Gates.orG {Gates.notG C} D|B|A}
+      W3 = {LogicGates.orG {LogicGates.notG C} D|B|A}
 
       [W1 '_' W3]
    end
@@ -127,11 +126,11 @@ define
    fun {LedsX A B C D}
       X1 X2 X3 in
       % X1 =  C ¬D + A C + A ¬D + ¬B C + ¬B ¬D + B ¬C D
-      X1 = {Gates.orG {Gates.andG C {Gates.notG D}} {Gates.andG A C}
-                                                   |{Gates.andG A {Gates.notG D}}
-                                                   |{Gates.andG C {Gates.notG B}}
-                                                   |{Gates.andG {Gates.notG D} {Gates.notG B}}
-                                                   |{Gates.andG B D|{Gates.notG C}}
+      X1 = {LogicGates.orG {LogicGates.andG C {LogicGates.notG D}} {LogicGates.andG A C}
+                                                   |{LogicGates.andG A {LogicGates.notG D}}
+                                                   |{LogicGates.andG C {LogicGates.notG B}}
+                                                   |{LogicGates.andG {LogicGates.notG D} {LogicGates.notG B}}
+                                                   |{LogicGates.andG B D|{LogicGates.notG C}}
       }
       % X2 = C ¬D + A C + A ¬D + ¬B C + ¬B ¬D + B ¬C D
       X2 = X1
